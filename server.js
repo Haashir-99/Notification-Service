@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -10,6 +12,8 @@ const mailRoutes = require("./routes/mail");
 const PORT = process.env.PORT || 4000;
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.json());
 
@@ -25,6 +29,10 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/mail", mailRoutes);
+
+app.use("/", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.use((error, req, res, next) => {
   console.log(error);
