@@ -30,16 +30,16 @@ app.use((req, res, next) => {
 
 app.use("/api/mail", mailRoutes);
 
-app.use("/", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;
   res.status(status).json({ message: message, data: data });
+});
+
+app.use("/", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // mongoose
